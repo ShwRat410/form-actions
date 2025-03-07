@@ -1,8 +1,40 @@
+import {isEmail,isNotEmpty,hasMinLength,isEqualToOtherValue} from '../util/validation.js'
+
 export default function Signup() {
 
   function signupAction(formData){
-    const enteredEmail = formData.get('email')
-    console.log(enteredEmail)
+    const email = formData.get('email')
+    const password = formData.get('password')
+    const confirmPassword = formData.get('confirm-password')
+    const firstName = formData.get('first-name')
+    const lastName = formData.get('first-name')
+    const role = formData.get('role')
+    const terms = formData.get('terms')
+    const acquisitionChannel = formData.getAll('acquisition')
+
+    const errors=[];
+    if(!isEmail(email)){
+      errors.push("Email is not valid")
+    }
+    if(!isNotEmpty(password) || hasMinLength(password,6)){
+      errors.push("Password must have minimum 6 charecters")
+    }
+    if(!isEqualToOtherValue(password,confirmPassword)){
+      errors.push("Confirm password and password don't match")
+    }
+    if(!isNotEmpty(firstName) || !isNotEmpty(lastName)){
+      errors.push("Please provide both your first name and last name")
+    }
+    if(!isNotEmpty(role)){
+      errors.push("Please provide your role")
+    }
+    if(!terms){
+      errors.push("Terms and conditions must be signed in")
+    }
+    if(acquisitionChannel.length===0){
+      errors.push("Please select at least one acquistition channel")
+    }
+    
   }
 
   return (
